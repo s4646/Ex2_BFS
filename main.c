@@ -41,13 +41,12 @@ int main(){
             scanf(" %d %d", &i,&j);
             if(B(i,j,mat))
             {
-                printf("True");
+                printf("True\n");
             }
             else
             {
-                printf("False");
+                printf("False\n");
             }
-            printf("\n");
         }
         if (c=='C')
         {
@@ -56,13 +55,11 @@ int main(){
             int x = C(i,j, mat);
             if(!x)
             {
-                printf("-1");
-                printf("\n");
+                printf("-1\n");
             }
             else
             {
-                printf("%d", x);
-                printf("\n");
+                printf("%d\n", x);
             }
         }
         if (c=='D')
