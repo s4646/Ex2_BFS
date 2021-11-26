@@ -4,95 +4,112 @@
 #include <string.h>
 #include "my_mat.h"
 
+#define MAX_COMMANDS 100
+#define MAX_COMMAND_LEN 200
+#define MAX_LINE_LEN 512
 
-int A(int mat[10][10], char* str){
+void parseInput(char *str, char *deli, char commands[][MAX_COMMANDS]);
+void printCommands(char commands[][MAX_COMMANDS], char sequence[]);
+void parseSequence(char str[], char *delimeters, char commandSequence[MAX_COMMANDS]);
+void remove_spaces(char str[]);
 
-    for(int i = 0 ; i<10 ; i++){
-        for(int j = 0 ; j<10 ; j++){
-            mat[i][j] = str[10*i + j];
-        }
-    }
-    return mat[10][10];
+int main()
+{
+	// variable decleration
+	char str[MAX_LINE_LEN];
+	// int mat[10][10];
+	char commands[MAX_COMMAND_LEN][MAX_COMMANDS];
+	char commandSequence[MAX_COMMANDS];
+	char delimeters[] = {'A', 'B', 'C', 'D'};
+
+	// get input from user
+	fgets(str, sizeof(str), stdin);
+
+	// delete all white space in the string
+	remove_spaces(str);
+
+	// get command sequence
+	parseSequence(str, delimeters, commandSequence);
+
+	// parse commands
+	parseInput(str, ",", commands);
+
+	// print all non empty commands
+	printCommands(commands, commandSequence);
 }
 
-int B(int i, int j, int mat[10][10]){
-    int visit[10] = {-1};
-    int index=0, pointer=1;
-    visit[index] = i;
-    bool route=true;
+void parseInput(char *str, char *deli, char commands[MAX_COMMAND_LEN][MAX_COMMANDS])
+{
+	// init variables
+	char *split;
 
-    while(route && index < 10){
-        int tmp = visit[index];
-        for(int k = 0 ; k<10 ; k++){
-            if(mat[tmp][k]) {
-                bool kVisited = false;
-                for(int m = 0 ; m<pointer ; m++){
-                    if(visit[m]==k){
-                        kVisited = true;
-                    }
-                }
-                if(!kVisited){
-                visit[pointer]=k;
-                pointer++;
-                }
-            }
-        }
-        if(visit[index]==-1){
-            route=false;
-        }
-        for(int m = 0 ; m<10 && visit[0]!=j ; m++){
-            if(visit[m]==j)
-                return 1;
-        }
-        index++;
-    }
-    return 0;
+	// init commands
+	int com;
+	for (com = 0; com < MAX_COMMANDS; ++com)
+	{
+		memset(commands[com], 0, strlen(commands[com]));
+	}
+
+	// split the user input
+	split = strtok(str, deli);
+
+	// add the new commands
+	int i = 0;
+	while (split != NULL)
+	{
+		strcat(commands[i], split);
+		split = strtok(NULL, deli);
+		i++;
+	}
 }
 
-int temp() {
-
-int matrix[10][10] = {{0,3,1,0,0,2,0,0,0,0}, {3,0,1,0,0,0,0,0,0,0}, {1,1,0,0,0,0,0,0,0,0},
-                      {0,0,0,0,0,0,0,5,0,0}, {0,0,0,0,0,0,0,4,1,1}, {2,0,0,0,0,0,2,0,0,0},
-                      {0,0,0,0,0,2,0,0,0,0}, {0,0,0,5,4,0,0,0,0,2}, {0,0,0,0,1,0,0,0,0,0},
-                      {0,0,0,0,1,0,0,0,0,0}};
-if(B(6,2,matrix)){
-    printf("true\n");
-}
-else{
-    printf("false\n");
+void printCommands(char commands[][MAX_COMMANDS], char sequence[])
+{
+	int command_index = 0;
+	while (strcmp(commands[command_index], "") != 0)
+	{
+		printf("command %d: %c - %s\n", command_index, sequence[command_index], commands[command_index]);
+		// printf("length: %ld\n", strlen(commands[command_index]));
+		command_index++;
+	}
 }
 
-return 0;
+void parseSequence(char str[], char delimeters[], char commandSequence[MAX_COMMANDS])
+{
+	// reset command sequence values
+
+	// add the commands in their sequence
+	int idx;
+	int j = 0;
+	for (idx = 0; idx < strlen(delimeters); ++idx) // for every letter in delimeters
+	{
+		char *pt = strchr(str, delimeters[idx]); // get the first letter that is equal to delimeters[i]
+		while (pt != NULL)						 // while there are more of these letters in the string
+		{
+			commandSequence[j] = *pt;
+			j++;
+			*pt = ',';
+			pt = strchr(str, delimeters[idx]);
+		}
+	}
 }
 
-int main(){
+void remove_spaces(char str[])
+{
+	size_t size = strlen(str);
+	char out[size];
+	int index = 0;
+	char *ptr;
+	ptr = &str[0];
 
-    char c;
-    int mat[10][10];
-    while(scanf("%s ", &c) != EOF){
-        if(c=='A'){
-            //A(mat);
-            continue;
-        }
-        if(c=='B'){
-            int i,j;
-            scanf("%d %d", &i,&j);
-            if(B(i,j,mat)){
-                printf("True");
-            }
-            else{
-                printf("False");
-            }
-        }
-        if(c=='C'){
-            continue;
-        }
-        if(c=='D'){
-            break;
-        }
-    }
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (*(ptr + i) != ' ')
+		{
+			out[index] = *(ptr + i);
+			index++;
+		}
+	}
+
+	strcpy(str, out);
 }
-
-
-
-
