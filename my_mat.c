@@ -54,7 +54,7 @@ int B(int i, int j, int mat[10][10]){
 int C(int i, int j, int mat[10][10]){
     if(!B(i,j, mat))
     {
-        return 0;
+        return -1;
     }
     int copy[10][10] = {{0}};
     int *ptr, *matrix;

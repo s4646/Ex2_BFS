@@ -2,11 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-//#include <limits.h>
 #include "my_mat.h"
 #define ROWS 10
 #define COLS 10
-//#define INFINITY INT_MAX
 
 
 int A(int *mat);
@@ -53,14 +51,7 @@ int main(){
             int i, j;
             scanf(" %d %d", &i,&j);
             int x = C(i,j, mat);
-            if(!x)
-            {
-                printf("-1\n");
-            }
-            else
-            {
-                printf("%d\n", x);
-            }
+            printf("%d\n", x);
         }
         if (c=='D')
         {
