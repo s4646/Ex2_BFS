@@ -6,7 +6,7 @@
 
 
 
-void A(int mat[10][10]){
+int A(int mat[10][10]){
 
 char c[10];
     while(scanf("%s ", &c)){

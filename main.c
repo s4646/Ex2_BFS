@@ -3,19 +3,25 @@
 #include <stdbool.h>
 #include <string.h>
 #include "my_mat.h"
+#define ROWS 10
+#define COLS 10
 
 
-int A(int mat[10][10], char* str){
-
-    for(int i = 0 ; i<10 ; i++){
-        for(int j = 0 ; j<10 ; j++){
-            mat[i][j] = str[10*i + j];
+int A(int *mat){
+    int a;
+    for (int i = 0; i < ROWS; i++)
+    {
+        for (int j = 0; j < COLS; j++)
+        {
+            scanf(" %d", &mat[i*10 + j]); // equals to *(mat + i*10 + j)
         }
     }
-    return mat[10][10];
+    return 0;
 }
 
-int B(int i, int j, int mat[10][10]){
+int B(int mat[10][10]){
+    int i, j;
+    scanf(" %d %d", &i,&j);
     int visit[10] = {-1};
     int index=0, pointer=1;
     visit[index] = i;
@@ -49,48 +55,49 @@ int B(int i, int j, int mat[10][10]){
     return 0;
 }
 
-int temp() {
+void printMat(int *mat){
 
-int matrix[10][10] = {{0,3,1,0,0,2,0,0,0,0}, {3,0,1,0,0,0,0,0,0,0}, {1,1,0,0,0,0,0,0,0,0},
-                      {0,0,0,0,0,0,0,5,0,0}, {0,0,0,0,0,0,0,4,1,1}, {2,0,0,0,0,0,2,0,0,0},
-                      {0,0,0,0,0,2,0,0,0,0}, {0,0,0,5,4,0,0,0,0,2}, {0,0,0,0,1,0,0,0,0,0},
-                      {0,0,0,0,1,0,0,0,0,0}};
-if(B(6,2,matrix)){
-    printf("true\n");
-}
-else{
-    printf("false\n");
-}
-
-return 0;
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            printf("%d ", mat[i*10 + j]); // equals to *(mat + i*10 + j)
+        }
+    }
 }
 
 int main(){
 
+    int mat[ROWS][COLS] = {{0}};
     char c;
-    int mat[10][10];
-    while(scanf("%s ", &c) != EOF){
-        if(c=='A'){
-            //A(mat);
-            continue;
+    do
+    {
+        scanf(" %c", &c);
+        if (c=='A')
+        {
+            A(mat[0]);
         }
-        if(c=='B'){
-            int i,j;
-            scanf("%d %d", &i,&j);
-            if(B(i,j,mat)){
+        if (c=='B')
+        {
+            if(B(mat))
+            {
                 printf("True");
             }
-            else{
+            else
+            {
                 printf("False");
             }
+            printf("\n");
         }
-        if(c=='C'){
-            continue;
-        }
-        if(c=='D'){
+        if (c=='D')
+        {
             break;
         }
-    }
+    } while (c!=EOF);
+    
+    printMat(mat[0]);
+
+    return 0;
 }
 
 
